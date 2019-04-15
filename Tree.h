@@ -17,10 +17,13 @@ public:
 	// Member Functions
 	bool isempty() const;
 	int pop();
-	void display();
 	Node* getRoot();
+	Node* findSucc(Node*);
+	Node* min(Node*);
+	Node* search(Node*, int);
 	
-	
+	void display();
+	void remove(int);
 	void push(int);
 	
 
