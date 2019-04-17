@@ -34,7 +34,7 @@ Node* Tree::min(Node* node) {
 	return curr;
 }
 
-Node* findSucc(Node* node) {
+Node* Tree::findSucc(Node* node) {
 	if (node->right != NULL) {
 		return min(node->right);
 	}
@@ -57,19 +57,22 @@ Node* findSucc(Node* node) {
 }
 
 Node* Tree::search(Node* node, int comp) {
+	if (node == NULL) { 
+		return NULL;
+	}
 	if (node->data != comp) {
-		if (node->right != NULL && node->data < comp) {
-			search(node->right);
+		if (node->data < comp) {
+			return search(node->right, comp);
 		}
-		if (node->left != NULL ** node->data > comp) {
-			search(node->left);
+		if (node->data > comp) {
+			return search(node->left, comp);
 		}
 	}
 	else if (node->data == comp) {
 		return node;
 	}
 	std::cout << "That number is not in the tree." << std::endl;
-	return;
+	return NULL;
 }
 
 void Tree::print(Node* node, int depth) const {
@@ -91,7 +94,7 @@ void Tree::remove(int remove) {
 	// Find node with data we want to remove
 	// Find successor of node we want to remove
 	// 
-	Node* node = search(root, remove)
+	Node* node = search(root, remove);
 	Node* succ = findSucc(node);
 	
 	if (succ != NULL) {
