@@ -36,9 +36,6 @@ Node* Tree::findSucc(Node* node) {
 	if (node->left != NULL) {
 		return min(node->left);
 	}
-	if (node->left == NULL && node->right != NULL) {
-		return node->right;
-	}
 	return NULL;
 	/*
 	Node* p = node->parent;
@@ -91,8 +88,62 @@ void Tree::remove(int remove) {
 	// Find successor of node we want to remove
 	// 
 	Node* node = search(root, remove);
-	Node* succ = findSucc(node);
 	
+	Node* succ;
+	
+	if (node->left != NULL && node->right != NULL) {
+		succ = findSucc(node);
+		if (succ == NULL) {
+			delete[] node;
+			return;
+		}
+		node->data = succ->data;
+		node = succ;
+	}
+	
+	Node* child;
+	if (node->left != NULL) {
+		child = node->left;
+	}
+	else {
+		child = node->right;
+	}
+	if (node->parent != NULL) {
+		if (node->parent->left == node) {
+			node->parent->left = child;
+		}
+		if (node->parent->right == node) {
+			node->parent->right = child;
+		}
+	}
+	else {
+		root = child;
+	}
+	/*
+	if (node->left != NULL && node->right == NULL) {
+		succ = findSucc(node);
+		if (succ == NULL) {
+			delete[] node;
+			return;
+		}
+		
+		if (succ->left != NULL) {
+			succ->parent->right = succ->left;
+		}
+		
+		node->data = succ->data;
+		
+		node = succ;
+	}
+	
+	if (node->left == NULL && node->right != NULL) {
+		node->parent->right = node->right;
+	}
+	*/
+	
+	delete[] node;
+	
+	/*
 	if (succ != NULL && node->right != succ) {
 		node->data = succ->data;
 		succ->parent->right = NULL;
@@ -102,9 +153,7 @@ void Tree::remove(int remove) {
 		node->parent->right = succ;
 		delete[] node;
 	}
-	if (succ == NULL) {
-		delete[] node;
-	}
+	*/
 	
 	// If succ is NULL do stuff
 	
