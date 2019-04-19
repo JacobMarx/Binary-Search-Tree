@@ -124,15 +124,15 @@ char* clear(char* arr) {
 
 bool getInput(Tree* tree, char* fileName) {
 	std::ifstream file;
-	std::cout << "goon" << std::endl;
+	//std::cout << "goon" << std::endl;
 	file.open(fileName);
 	if (file.is_open()) {
 		//char* in = new char[1000];
 		char* in = new char[4000];
 		int input = 0;
 		int index = 0;
-		std::cout << file.get() << std::endl;
-		file.unget();
+		//std::cout << file.get() << std::endl;
+		//file.unget();
 		file >> in;
 		while (true) { // Gage did this
 			char current = in[index++];
@@ -140,15 +140,16 @@ bool getInput(Tree* tree, char* fileName) {
 				break;
 			} else if (current == ',') {
 				tree->push(input);
+				std::cout << "Input: " << input << std::endl;
 				input = 0;
 				continue;
 			}
 			int digit = current - '0';
 			input = input * 10 + digit;
 		}
-		std::cout << in << std::endl;
+		//std::cout << "Input: " << input << std::endl;
 		if (input <= 1000 && input >= 1) {
-			tree->push((int)*in);
+			tree->push(input);
 		}
 		return true;
 	}

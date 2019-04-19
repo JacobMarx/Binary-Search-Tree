@@ -26,22 +26,18 @@ Node* Tree::getRoot() {
 }
 
 Node* Tree::min(Node* node) {
-	Node* curr = node;
-	
-	while (curr->left != NULL) {
-		curr = curr->left;
+	while (node->right != NULL)  {
+		return min(node->right);
 	}
-	return curr;
+	return node;
 }
 
 Node* Tree::findSucc(Node* node) {
-	if (node->right != NULL) {
-		return min(node->right);
+	if (node->left != NULL) {
+		return min(node->left);
 	}
-	else {
-		if (node->left != NULL) {
-			return node->left;
-		}
+	if (node->left == NULL && node->right != NULL) {
+		return node->right;
 	}
 	return NULL;
 	/*
@@ -97,16 +93,20 @@ void Tree::remove(int remove) {
 	Node* node = search(root, remove);
 	Node* succ = findSucc(node);
 	
-	if (succ != NULL) {
+	if (succ != NULL && node->right != succ) {
 		node->data = succ->data;
-	}
-	if (succ->parent->left == succ) {
-		succ->parent->left = NULL;
-	}
-	else {
 		succ->parent->right = NULL;
+		delete[] succ;
 	}
-	delete[] succ;
+	if (node->right == succ) {
+		node->parent->right = succ;
+		delete[] node;
+	}
+	if (succ == NULL) {
+		delete[] node;
+	}
+	
+	// If succ is NULL do stuff
 	
 }
 
@@ -138,11 +138,13 @@ void Tree::push(Node*& node, int input) {
 	if (node->left == NULL) {
 		if (input < node->data) {
 			node->left = new Node(input);
+			node->left->parent = node;
 		}
 	}
 	if (node->right == NULL) {
 		if (input > node->data) {
 			node->right = new Node(input);
+			node->right->parent = node;
 		}
 	}
 }
