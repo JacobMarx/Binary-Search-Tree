@@ -32,7 +32,7 @@ private:
 	Node* root;
 	
 	// Private Functions
-	void push(Node*&, int);
+	void push(Node*, int);
 	void print(Node*, int) const;
 
 	

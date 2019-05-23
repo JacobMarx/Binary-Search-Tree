@@ -62,9 +62,9 @@ Node* Tree::search(Node* node, int comp) {
 		}
 	}
 	else if (node->data == comp) {
+		std::cout << "ummmm" << std::endl;
 		return node;
 	}
-	std::cout << "That number is not in the tree." << std::endl;
 	return NULL;
 }
 
@@ -91,7 +91,7 @@ void Tree::remove(int remove) {
 	
 	Node* succ;
 	
-	if (node->left != NULL && node->right != NULL) {
+	if (node!= NULL && node->left != NULL && node->right != NULL) {
 		succ = findSucc(node);
 		if (succ == NULL) {
 			delete[] node;
@@ -173,6 +173,7 @@ void Tree::push(int input) {
 	}
 }
 
+/*
 void Tree::push(Node*& node, int input) {
 	if (node->left != NULL) {
 		if (input < node->data) {
@@ -195,6 +196,28 @@ void Tree::push(Node*& node, int input) {
 			node->right = new Node(input);
 			node->right->parent = node;
 		}
+	}
+}
+*/
+
+void Tree::push(Node* node, int input) { // Creates new node
+	if (node->left != NULL && node->data > input) {
+		push(node->left, input);
+		return;
+	}
+	else if (node->right != NULL && node->data < input) {
+		push(node->right, input);
+		return;
+	}
+	if (node->left == NULL && input < node->data) {
+			node->left = new Node(input);
+			node->left->parent = node;
+			return;
+	}
+	else if (node->right == NULL && input > node->data) {
+			node->right = new Node(input);
+			node->right->parent = node;
+			return;
 	}
 }
 

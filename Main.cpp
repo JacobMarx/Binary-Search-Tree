@@ -3,7 +3,28 @@
 	This programs makes a Binary Tree that you can add and remove to
 	also it can print out the tree visually
 */
+/*
+*****************FIX***********************
+if (input < node->data) {
+		if (node->left == NULL) {
+			node->left = new Node(input);
+			node->left->parent = node;
+			node->left->color = 2;
+			std::cout << "New Node: " << node->left->data << std::endl << std::endl;
+			setFam(node->left);
+		}
+	}
+	else if (input > node->data) {
+		if (node->right == NULL) {
+			node->right = new Node(input);
+			node->right->parent = node;
+			node->right->color = 2;
+			std::cout << "New Node: " << node->right->data << std::endl << std::endl;
+			setFam(node->right);
+		}
+	}	
 
+*/
 #include <iostream>
 #include <cstring>
 #include <fstream>
@@ -58,7 +79,12 @@ int main() {
 					int digit = current - '0';
 					input = input * 10 + digit;
 				}
-				tree->remove(input);
+				if (tree->search(tree->getRoot(), input) == NULL) {
+					std::cout << "That number is not in the tree." << std::endl;
+				}
+				else {
+					tree->remove(input);
+				}
 				clear(in);
 			}
 			else if (strcmp(in, "print") == 0) {
@@ -159,7 +185,6 @@ bool getInput(Tree* tree, char* fileName) {
 void enter(Tree* tree) {
 	char* input = new char[20];
 	std::cout << "Would you like to enter values with a 'file' or 'console'" << std::endl;
-	clear(input);
 	std::cin >> input;
 	if (strcmp(input, "file") == 0) {
 		char* fileName = new char[80];
