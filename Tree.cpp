@@ -62,7 +62,6 @@ Node* Tree::search(Node* node, int comp) {
 		}
 	}
 	else if (node->data == comp) {
-		std::cout << "ummmm" << std::endl;
 		return node;
 	}
 	return NULL;
